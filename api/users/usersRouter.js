@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.post('/register', [hashPassword, validateUserData], async (req, res, next) => {
+router.post('/register', [validateUserData, hashPassword], async (req, res, next) => {
   const { username } = req.body;
   const user = {
     username,
@@ -31,7 +31,7 @@ router.post('/register', [hashPassword, validateUserData], async (req, res, next
   }
 });
 
-router.post('/login', [reversePasswordHash, validateUserData], (req, res, next) => {
+router.post('/login', [validateUserData, reversePasswordHash], (req, res, next) => {
   try {
     res
       .status(200)
