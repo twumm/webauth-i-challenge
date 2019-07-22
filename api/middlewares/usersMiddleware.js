@@ -31,3 +31,8 @@ async function reversePasswordHash(req, res, next) {
     next(error);
   }
 }
+
+module.exports = {
+  hashPassword,
+  reversePasswordHash,
+};
