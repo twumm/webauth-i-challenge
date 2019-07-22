@@ -4,11 +4,13 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 const server = express();
+const usersRouter = require('../api/users/usersRouter');
 
 server.use(helmet());
 server.use(express.json());
 server.use(cors());
 server.use(logger);
+server.use('/api/users', usersRouter);
 
 server.get('/', async (req, res, next) => {
   try {
