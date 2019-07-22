@@ -29,6 +29,16 @@ router.post('/register', hashPassword, async (req, res, next) => {
   } catch (error) {
     next(new Error('Could not register user. Please try again'));
   }
-})
+});
+
+router.post('/login', reversePasswordHash, (req, res, next) => {
+  try {
+    res
+      .status(200)
+      .json({ message: `Welcome ${req.user.username}`});
+  } catch (error) {
+    next(new Error('Login failed miserably. Kindly try again'));
+  }
+});
 
 module.exports = router;
