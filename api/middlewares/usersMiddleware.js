@@ -17,7 +17,7 @@ async function hashPassword(req, res, next) {
 async function reversePasswordHash(req, res, next) {
   const { username, password } = req.body;
   try {
-    usersDb.findUserBy(username)
+    usersDb.findUserBy({username})
       .first()
       .then(user => {
         if (user && bcrypt.compareSync(password, user.password)) {
@@ -28,7 +28,7 @@ async function reversePasswordHash(req, res, next) {
         }
       })
   } catch (error) {
-    next(error);
+    next(new Error('Something went wrong. Please try again'));
   }
 }
 
