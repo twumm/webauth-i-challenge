@@ -9,6 +9,11 @@ function getUserById(id) {
     .where({ id });
 }
 
+function findUserByEmail(filter) {
+  return db('users')
+    .where(filter);
+}
+
 function addUser(user) {
   return db('users')
     .insert(user)
@@ -30,6 +35,7 @@ function removeUser(id) {
 module.exports = {
   getAllUsers,
   getUserById,
+  findUserByEmail,
   addUser,
   updateUser,
   removeUser
