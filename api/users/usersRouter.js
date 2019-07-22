@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const usersDb = require('./usersDb');
+const { hashPassword, reversePasswordHash } = require('../middlewares/usersMiddleware');
 
 router.get('/', async (req, res, next) => {
   try {
@@ -14,8 +15,12 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.post('/register', async (req, res, next) => {
-  const user = { username, password } = req.body;
+router.post('/register', hashPassword, async (req, res, next) => {
+  const { username } = req.body;
+  const user = {
+    username,
+    password: req.hashedPassword
+  }
   try {
     const newUser = await usersDb.addUser(user);
     res
