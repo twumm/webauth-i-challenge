@@ -6,10 +6,16 @@ const { hashPassword, reversePasswordHash, validateUserData } = require('../midd
 
 router.get('/', async (req, res, next) => {
   try {
-    const users = await usersDb.getAllUsers();
-    res
-      .status(200)
-      .json(users);
+    if (req.session && req.session.user) {
+      const users = await usersDb.getAllUsers();
+      res
+        .status(200)
+        .json(users);
+    } else {
+      res
+        .status(400)
+        .json({ message: 'You need to login to view users' });
+    }
   } catch (error) {
     next(new Error('Could not retrieve users. Please try again later.'));
   }
@@ -36,7 +42,7 @@ router.post('/login', [validateUserData, reversePasswordHash], (req, res, next) 
     req.session.user = req.user;
     res
       .status(200)
-      .json({ message: `Welcome ${req.user.username}`});
+      .json({ message: `Welcome ${req.user.username}` });
   } catch (error) {
     next(new Error('Login failed miserably. Kindly try again'));
   }
