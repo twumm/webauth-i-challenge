@@ -48,4 +48,22 @@ router.post('/login', [validateUserData, reversePasswordHash], (req, res, next) 
   }
 });
 
+router.get('/logout', (req, res) => {
+  if (req.session) {
+    req.session.destroy(error => {
+      if (error) {
+        res
+          .status(400)
+          .json({ message: 'You can\'t leave just yet' });
+      } else {
+        res
+          .status(200)
+          .json({ message: 'Sad to see you leave' });
+      }
+    });
+  } else {
+    res.end();
+  }
+});
+
 module.exports = router;
