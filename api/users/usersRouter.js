@@ -33,6 +33,7 @@ router.post('/register', [validateUserData, hashPassword], async (req, res, next
 
 router.post('/login', [validateUserData, reversePasswordHash], (req, res, next) => {
   try {
+    req.session.user = req.user;
     res
       .status(200)
       .json({ message: `Welcome ${req.user.username}`});
